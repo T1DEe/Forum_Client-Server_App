@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  ForumiOSApp
-//
-//  Created by Artemy Markovsky on 9/15/19.
-//  Copyright © 2019 Artemy Markovsky. All rights reserved.
-//
 
 import UIKit
 
@@ -15,7 +8,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        let loginVC = RegistrationViewController()
+        window!.rootViewController = loginVC
+        window!.makeKeyAndVisible()
+        
         return true
     }
 

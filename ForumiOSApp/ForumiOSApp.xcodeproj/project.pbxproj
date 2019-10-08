@@ -7,21 +7,45 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E1B12A0234CB1B4004481BB /* ThreadTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1B129E234CB1B4004481BB /* ThreadTableViewCell.swift */; };
+		4E1B12A1234CB1B4004481BB /* ThreadTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E1B129F234CB1B4004481BB /* ThreadTableViewCell.xib */; };
+		4E1B12A4234CB329004481BB /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1B12A2234CB329004481BB /* RegistrationViewController.swift */; };
+		4E1B12A5234CB329004481BB /* RegistrationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E1B12A3234CB329004481BB /* RegistrationView.xib */; };
+		4E1B12A7234CB36B004481BB /* RegistrationViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1B12A6234CB36B004481BB /* RegistrationViewDelegate.swift */; };
+		4E442DA523488DEB0038727C /* LoginViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E442DA423488DEB0038727C /* LoginViewDelegate.swift */; };
+		4E442DA723488E000038727C /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E442DA623488E000038727C /* LoginPresenter.swift */; };
 		4E53BEC1232EA37900D1B98D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E53BEC0232EA37900D1B98D /* AppDelegate.swift */; };
-		4E53BEC3232EA37900D1B98D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E53BEC2232EA37900D1B98D /* ViewController.swift */; };
-		4E53BEC6232EA37900D1B98D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E53BEC4232EA37900D1B98D /* Main.storyboard */; };
+		4E53BEC3232EA37900D1B98D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E53BEC2232EA37900D1B98D /* LoginViewController.swift */; };
 		4E53BEC8232EA37B00D1B98D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4E53BEC7232EA37B00D1B98D /* Assets.xcassets */; };
 		4E53BECB232EA37B00D1B98D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E53BEC9232EA37B00D1B98D /* LaunchScreen.storyboard */; };
+		4E765F66234C81C500C70CA7 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E765F64234C81C500C70CA7 /* PostTableViewCell.swift */; };
+		4E765F67234C81C500C70CA7 /* PostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E765F65234C81C500C70CA7 /* PostTableViewCell.xib */; };
+		4EA19516234BBA3200EDDBC1 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EA19515234BBA3200EDDBC1 /* LoginView.xib */; };
+		4EC843F4234A6D3C00ACE4C8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC843F2234A6D3C00ACE4C8 /* ProfileViewController.swift */; };
+		4EC843F5234A6D3C00ACE4C8 /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EC843F3234A6D3C00ACE4C8 /* ProfileView.xib */; };
+		4EC843F7234A73ED00ACE4C8 /* ProfileViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC843F6234A73ED00ACE4C8 /* ProfileViewDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4E1B129E234CB1B4004481BB /* ThreadTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ThreadTableViewCell.swift; path = ForumiOSApp/Controllers/ThreadTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		4E1B129F234CB1B4004481BB /* ThreadTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ThreadTableViewCell.xib; path = ForumiOSApp/Controllers/ThreadTableViewCell.xib; sourceTree = SOURCE_ROOT; };
+		4E1B12A2234CB329004481BB /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		4E1B12A3234CB329004481BB /* RegistrationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegistrationView.xib; sourceTree = "<group>"; };
+		4E1B12A6234CB36B004481BB /* RegistrationViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewDelegate.swift; sourceTree = "<group>"; };
+		4E442DA423488DEB0038727C /* LoginViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewDelegate.swift; sourceTree = "<group>"; };
+		4E442DA623488E000038727C /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
 		4E53BEBD232EA37900D1B98D /* ForumiOSApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ForumiOSApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E53BEC0232EA37900D1B98D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4E53BEC2232EA37900D1B98D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		4E53BEC5232EA37900D1B98D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4E53BEC2232EA37900D1B98D /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4E53BEC7232EA37B00D1B98D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4E53BECA232EA37B00D1B98D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4E53BECC232EA37B00D1B98D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4E765F64234C81C500C70CA7 /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
+		4E765F65234C81C500C70CA7 /* PostTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostTableViewCell.xib; sourceTree = "<group>"; };
+		4EA19515234BBA3200EDDBC1 /* LoginView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
+		4EC843F2234A6D3C00ACE4C8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		4EC843F3234A6D3C00ACE4C8 /* ProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
+		4EC843F6234A73ED00ACE4C8 /* ProfileViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +59,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E442DA123488D970038727C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4E442DA223488D9F0038727C /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+				4E442DA623488E000038727C /* LoginPresenter.swift */,
+			);
+			path = Presenters;
+			sourceTree = "<group>";
+		};
+		4E442DA323488DAF0038727C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4E765F65234C81C500C70CA7 /* PostTableViewCell.xib */,
+				4E1B129F234CB1B4004481BB /* ThreadTableViewCell.xib */,
+				4EC843F3234A6D3C00ACE4C8 /* ProfileView.xib */,
+				4EA19515234BBA3200EDDBC1 /* LoginView.xib */,
+				4E1B12A3234CB329004481BB /* RegistrationView.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		4E53BEB4232EA37900D1B98D = {
 			isa = PBXGroup;
 			children = (
@@ -54,14 +105,39 @@
 		4E53BEBF232EA37900D1B98D /* ForumiOSApp */ = {
 			isa = PBXGroup;
 			children = (
+				4EC843EF234A6C9E00ACE4C8 /* Controllers */,
+				4E442DA323488DAF0038727C /* Views */,
+				4E442DA223488D9F0038727C /* Presenters */,
+				4E442DA123488D970038727C /* Model */,
 				4E53BEC0232EA37900D1B98D /* AppDelegate.swift */,
-				4E53BEC2232EA37900D1B98D /* ViewController.swift */,
-				4E53BEC4232EA37900D1B98D /* Main.storyboard */,
 				4E53BEC7232EA37B00D1B98D /* Assets.xcassets */,
 				4E53BEC9232EA37B00D1B98D /* LaunchScreen.storyboard */,
 				4E53BECC232EA37B00D1B98D /* Info.plist */,
 			);
 			path = ForumiOSApp;
+			sourceTree = "<group>";
+		};
+		4EA19517234BBFF000EDDBC1 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				4E442DA423488DEB0038727C /* LoginViewDelegate.swift */,
+				4E1B12A6234CB36B004481BB /* RegistrationViewDelegate.swift */,
+				4EC843F6234A73ED00ACE4C8 /* ProfileViewDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		4EC843EF234A6C9E00ACE4C8 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4EA19517234BBFF000EDDBC1 /* Delegates */,
+				4E53BEC2232EA37900D1B98D /* LoginViewController.swift */,
+				4EC843F2234A6D3C00ACE4C8 /* ProfileViewController.swift */,
+				4E1B129E234CB1B4004481BB /* ThreadTableViewCell.swift */,
+				4E765F64234C81C500C70CA7 /* PostTableViewCell.swift */,
+				4E1B12A2234CB329004481BB /* RegistrationViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -122,9 +198,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E1B12A5234CB329004481BB /* RegistrationView.xib in Resources */,
 				4E53BECB232EA37B00D1B98D /* LaunchScreen.storyboard in Resources */,
+				4E765F67234C81C500C70CA7 /* PostTableViewCell.xib in Resources */,
 				4E53BEC8232EA37B00D1B98D /* Assets.xcassets in Resources */,
-				4E53BEC6232EA37900D1B98D /* Main.storyboard in Resources */,
+				4E1B12A1234CB1B4004481BB /* ThreadTableViewCell.xib in Resources */,
+				4EC843F5234A6D3C00ACE4C8 /* ProfileView.xib in Resources */,
+				4EA19516234BBA3200EDDBC1 /* LoginView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,22 +215,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4E53BEC3232EA37900D1B98D /* ViewController.swift in Sources */,
+				4E765F66234C81C500C70CA7 /* PostTableViewCell.swift in Sources */,
+				4E442DA723488E000038727C /* LoginPresenter.swift in Sources */,
+				4E442DA523488DEB0038727C /* LoginViewDelegate.swift in Sources */,
+				4E1B12A4234CB329004481BB /* RegistrationViewController.swift in Sources */,
+				4EC843F4234A6D3C00ACE4C8 /* ProfileViewController.swift in Sources */,
+				4E53BEC3232EA37900D1B98D /* LoginViewController.swift in Sources */,
 				4E53BEC1232EA37900D1B98D /* AppDelegate.swift in Sources */,
+				4EC843F7234A73ED00ACE4C8 /* ProfileViewDelegate.swift in Sources */,
+				4E1B12A7234CB36B004481BB /* RegistrationViewDelegate.swift in Sources */,
+				4E1B12A0234CB1B4004481BB /* ThreadTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		4E53BEC4232EA37900D1B98D /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4E53BEC5232EA37900D1B98D /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		4E53BEC9232EA37B00D1B98D /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -285,6 +365,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 726V7J6M2J;
 				INFOPLIST_FILE = ForumiOSApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -303,6 +384,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 726V7J6M2J;
 				INFOPLIST_FILE = ForumiOSApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
