@@ -95,10 +95,8 @@ server.on('request', (request, response) => {
                 })
                 request.on('end', () => {
                     const userCreds = JSON.parse(data);
-                    const birthdate = Date.parse(userCreds.birthdate);
-                    console.log(birthdate); 
                     try {
-                        registerUser(userCreds.username, userCreds.password, userCreds.sex, userCreds.birthdate, 
+                        registerUser(userCreds.username, userCreds.password, userCreds.sex, 
                             userCreds.location, (authConfirm) => {
                             response.writeHead(200, {'Content-Type':'application/json'} );
                             response.end(JSON.stringify(authConfirm));
@@ -172,23 +170,22 @@ async function authUser(username, password, callback) {
     }
 }
 
-async function registerUser(username, password, sex, birthdate, location, callback) {
+async function registerUser(username, password, sex, location, callback) {
     const result = await clientConnect.execute(
         `BEGIN
-           ADMIN.REGISTERUSER(:username, :password, :sex, :birthdate, :location :regconfirm);
+           ADMIN.REGISTERUSER(:username, :password, :sex, :location, :regconfirm);
          END;`,
         {
             username: { dir: oracledb.BIND_IN, val: username, type: oracledb.STRING, maxSize: 20 },
             password: { dir: oracledb.BIND_IN, val: password, type: oracledb.STRING, maxSize: 20 },
             sex: { dir: oracledb.BIND_IN, val: sex, type: oracledb.NUMBER },
-            birthdate: { dir: oracledb.BIND_IN, val: birthdate, type: oracledb.DATE },
             location: { dir: oracledb.BIND_IN, val: location, type: oracledb.STRING, maxSize: 20 },
             regconfirm: { type: oracledb.NUMBER, dir : oracledb.BIND_OUT }
         }
     );
     const authObj = result.outBinds;
     console.log(authObj);
-    if (authObj.regConfirm == 1) {
+    if (authObj.regconfirm == 1) {
         console.log("regiterUser(): user registered.");
         callback(true);
     } else {

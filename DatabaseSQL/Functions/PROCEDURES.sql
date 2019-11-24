@@ -1,6 +1,6 @@
 -- REGISTER USER --
 CREATE OR REPLACE PROCEDURE REGISTERUSER (i_username IN ADMIN.USERS.USERNAME%TYPE, i_password IN ADMIN.USERS.PASSWORD%TYPE,
-    i_sex IN ADMIN.users_info.sex%TYPE, i_birth_date IN ADMIN.users_info.birth_date%TYPE, i_location IN ADMIN.users_info.location%TYPE, o_auth OUT NUMBER)
+    i_sex IN ADMIN.users_info.sex%TYPE, i_location IN ADMIN.users_info.location%TYPE, o_auth OUT NUMBER)
 AS
     user_exists NUMBER;
     newuser_id NUMBER;
@@ -14,8 +14,10 @@ BEGIN
         INSERT INTO ADMIN.USERS (username, password) VALUES (i_username, i_password);
         SELECT ID INTO newuser_id FROM ADMIN.USERS WHERE USERNAME = i_username;
         SELECT sysdate INTO nowdate from dual; 
-        INSERT INTO ADMIN.USERS_INFO (user_id, sex, birth_date, location, reg_date) VALUES (newuser_id, i_sex, i_birth_date, i_location, nowdate);
+        INSERT INTO ADMIN.USERS_INFO (user_id, sex, location, reg_date) VALUES (newuser_id, i_sex, i_location, nowdate);
         o_auth := 1;
+        
+        COMMIT;
     ELSE
         o_auth := 0;
     END IF;
