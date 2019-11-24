@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- SQL XML created by WWW SQL Designer, https://github.com/ondras/wwwsqldesigner/ -->
+<!-- Active URL: https://ondras.zarovi.cz/sql/demo/?keyword=default -->
+<sql>
+<datatypes db="sqlalchemy">
+	<group label="Numeric" color="rgb(238,238,170)">
+		<type label="Integer" length="1" sql="sa.Integer" re="INTEGER" quote=""/>
+		<type label="Float" length="1" sql="sa.Float" re="DOUBLE" quote=""/>
+		<type label="Decimal" length="1" sql="sa.Numeric" re="DOUBLE" quote=""/>
+	</group>
+
+	<group label="Character" color="rgb(255,200,200)">
+        <type label="String" length="1" sql="sa.String" quote="'"/>
+        <type label="Text" length="0" sql="sa.Text" quote="'"/>
+    </group>
+
+    <group label="Date &amp; Time" color="rgb(200,255,200)">
+        <type label="Date" length="0" sql="sa.Date" quote="'"/>
+        <type label="Time" length="0" sql="sa.Time" quote="'"/>
+        <type label="Datetime" length="0" sql="sa.DateTime" quote="'"/>
+        <type label="Timestamp" length="0" sql="sa.Timestamp" quote="'"/>
+        <type label="Interval" length="0" sql="sa.Interval" quote="'"/>
+    </group>
+    
+    <group label="Miscellaneous" color="rgb(200,200,255)">
+        <type label="Boolean" length="0" sql="sa.Boolean" quote=""/>
+        <type label="BLOB" length="1" sql="sa.Binary" quote="'"/>
+        <type label="Pickle" length="0" sql="sa.PickleType" quote=""/>
+    </group>
+</datatypes><table x="611" y="238" name="5.Threads+">
+<row name="id+" null="1" autoincrement="1">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<row name="title (unique)" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<row name="description" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<row name="post_count" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id+</part>
+</key>
+</table>
+<table x="830" y="323" name="7.Posts+">
+<row name="id" null="1" autoincrement="1">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<row name="thread_id+" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default><relation table="5.Threads+" row="id+" />
+</row>
+<row name="user_id+" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default><relation table="4.Users+" row="id+" />
+</row>
+<row name="content" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<row name="created_time" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<row name="answer_to_post_id" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="605" y="487" name="4.Users+">
+<row name="id+" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<row name="username (unique)" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<row name="password" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id+</part>
+</key>
+</table>
+<table x="357" y="322" name="6.Administrators+">
+<row name="id" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<row name="thread_id (uniqueWith)+" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default><relation table="5.Threads+" row="id+" />
+</row>
+<row name="user_id (uniqueWith)+" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default><relation table="4.Users+" row="id+" />
+</row>
+<row name="admin_rights_id+" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default><relation table="1.AdminRights+" row="id+" />
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="610" y="634" name="3.UserInfo+">
+<row name="id" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<row name="user_id (unique)+" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default><relation table="4.Users+" row="id+" />
+</row>
+<row name="sex" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<row name="birth_date" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<row name="location" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<row name="reg_date" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<row name="message_count" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<row name="forum_rank_id+" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default><relation table="2.ForumRanks+" row="id+" />
+</row>
+<row name="profile_photo_path" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="826" y="664" name="2.ForumRanks+">
+<row name="id+" null="1" autoincrement="1">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<row name="name (unique)" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id+</part>
+</key>
+</table>
+<table x="129" y="352" name="1.AdminRights+">
+<row name="id+" null="1" autoincrement="1">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<row name="name (unique)" null="1" autoincrement="0">
+<datatype>sa.Integer</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id+</part>
+</key>
+</table>
+</sql>

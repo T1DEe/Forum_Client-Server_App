@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "NavigationViewController.pushViewController(vc:):NavigationViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "navigationController.viewControllers">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
