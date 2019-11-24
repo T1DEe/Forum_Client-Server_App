@@ -108,7 +108,22 @@ server.on('request', (request, response) => {
                 break;
             }
             case '/createThread' : {
-            
+                let data = ''
+                request.on('data', chunk => {
+                    data += chunk;
+                })
+                request.on('end', () => {
+                    const threadData = JSON.parse(data);
+                    try {
+                        createThread(threadData.title, threadData.description, threadData.creator_id, 
+                            (regConfirm) => {
+                                response.writeHead(200, {'Content-Type':'application/json'} );
+                                response.end(JSON.stringify(regConfirm));
+                        });
+                    } catch (err) {
+                        console.log(err);
+                    }
+                });
                 break;
             }
             case '/createPost' : {
@@ -183,9 +198,9 @@ async function registerUser(username, password, sex, location, callback) {
             regconfirm: { type: oracledb.NUMBER, dir : oracledb.BIND_OUT }
         }
     );
-    const authObj = result.outBinds;
-    console.log(authObj);
-    if (authObj.regconfirm == 1) {
+    const regObj = result.outBinds;
+    console.log(regObj);
+    if (regObj.regconfirm == 1) {
         console.log("regiterUser(): user registered.");
         callback(true);
     } else {
@@ -215,6 +230,29 @@ async function getThreads(callback) {
   
     await resultSet.close();
     callback(rows)
+}
+
+async function createThread(title, description, creator_id, callback) {
+    const result = await clientConnect.execute(
+        `BEGIN
+           ADMIN.CREATETHREAD(:title, :description, :creator_id, :createconfirm);
+        END;`,
+        {
+            title: { dir: oracledb.BIND_IN, val: title, type: oracledb.STRING, maxSize: 30 },
+            description: { dir: oracledb.BIND_IN, val: description, type: oracledb.STRING, maxSize: 200 },
+            creator_id: { dir: oracledb.BIND_IN, val: creator_id, type: oracledb.NUMBER },
+            createconfirm: { type: oracledb.NUMBER, dir : oracledb.BIND_OUT }
+        }
+    );
+    const createObj = result.outBinds;
+    console.log(createObj);
+    if (createObj.createconfirm == 1) {
+        console.log("createThread(): thread created.");
+        callback(true);
+    } else {
+        console.log("createThread(): thread creation denied.");
+        callback(false);
+    }
 }
 
 async function getPosts(threadId, callback) {

@@ -1,6 +1,6 @@
 -- REGISTER USER --
 CREATE OR REPLACE PROCEDURE REGISTERUSER (i_username IN ADMIN.USERS.USERNAME%TYPE, i_password IN ADMIN.USERS.PASSWORD%TYPE,
-    i_sex IN ADMIN.users_info.sex%TYPE, i_location IN ADMIN.users_info.location%TYPE, o_auth OUT NUMBER)
+    i_sex IN ADMIN.users_info.sex%TYPE, i_location IN ADMIN.users_info.location%TYPE, o_reg OUT NUMBER)
 AS
     user_exists NUMBER;
     newuser_id NUMBER;
@@ -15,11 +15,11 @@ BEGIN
         SELECT ID INTO newuser_id FROM ADMIN.USERS WHERE USERNAME = i_username;
         SELECT sysdate INTO nowdate from dual; 
         INSERT INTO ADMIN.USERS_INFO (user_id, sex, location, reg_date) VALUES (newuser_id, i_sex, i_location, nowdate);
-        o_auth := 1;
+        o_reg := 1;
         
         COMMIT;
     ELSE
-        o_auth := 0;
+        o_reg := 0;
     END IF;
 END;
 
@@ -42,6 +42,28 @@ BEGIN
       SELECT * FROM ADMIN.THREADS;
 END;
 
+-- CREATE THREAD --
+CREATE OR REPLACE PROCEDURE CREATETHREAD (i_title IN ADMIN.THREADS.TITLE%TYPE, i_description IN ADMIN.THREADS.DESCRIPTION%TYPE,
+i_creator_id IN ADMIN.USERS.ID%TYPE, o_create OUT NUMBER)
+AS
+    thread_exists NUMBER;
+    newthread_id NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO thread_exists
+        FROM   ADMIN.THREADS
+        WHERE TITLE = i_title;
+    
+    IF thread_exists = 0 THEN
+        INSERT INTO ADMIN.THREADS (title, description) VALUES (i_title, i_description);
+        SELECT ID INTO newthread_id FROM ADMIN.THREADS WHERE title = i_title;
+        INSERT INTO ADMIN.ADMINISTRATORS (thread_id, user_id, adminright_id) VALUES (newthread_id, i_creator_id, 0);
+        o_create := 1;
+        
+        COMMIT;
+    ELSE
+        o_create := 0;
+    END IF;
+END;
 
 -- GET POSTS --
 CREATE OR REPLACE PROCEDURE GETPOSTS(i_threadid IN ADMIN.THREADS.ID%TYPE, p_postsset OUT SYS_REFCURSOR)
