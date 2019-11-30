@@ -127,7 +127,22 @@ server.on('request', (request, response) => {
                 break;
             }
             case '/createPost' : {
-            
+                let data = ''
+                request.on('data', chunk => {
+                    data += chunk;
+                })
+                request.on('end', () => {
+                    const postData = JSON.parse(data);
+                    try {
+                        createPost(postData.thread_id, postData.user_id, postData.content, postData.to_post_id, 
+                            (regConfirm) => {
+                                response.writeHead(200, {'Content-Type':'application/json'} );
+                                response.end(JSON.stringify(regConfirm));
+                        });
+                    } catch (err) {
+                        console.log(err);
+                    }
+                });
                 break;
             }
             case '/deletePost' : {
@@ -277,6 +292,31 @@ async function getPosts(threadId, callback) {
   
     await resultSet.close();
     callback(rows)
+}
+
+async function createPost(threadId, userId, content, toPostId, callback) {
+    const result = await clientConnect.execute(
+        `BEGIN
+            ADMIN.CREATEPOST(:threadid, :userid, :content, :topostid, :createconfirm);
+        END;`,
+        {
+            threadid: { dir: oracledb.BIND_IN, val: threadId, type: oracledb.NUMBER },
+            userid: { dir: oracledb.BIND_IN, val: userId, type: oracledb.NUMBER },
+            content: { dir: oracledb.BIND_IN, val: content, type: oracledb.STRING, maxSize: 2000 },
+            topostid: { dir: oracledb.BIND_IN, val: toPostId, type: oracledb.NUMBER },
+            createconfirm: { type: oracledb.NUMBER, dir : oracledb.BIND_OUT }
+        }
+    );
+
+    const createObj = result.outBinds;
+    console.log(createObj);
+    if (createObj.createconfirm == 1) {
+        console.log("createPost(): post created.");
+        callback(true);
+    } else {
+        console.log("createPost(): post creation denied.");
+        callback(false);
+    }
 }
 
 async function getUserInfo(userId, callback) {

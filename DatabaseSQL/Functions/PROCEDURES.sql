@@ -76,6 +76,23 @@ BEGIN
             WHERE THREAD_ID = i_threadid;
 END GETPOSTS;
 
+-- CREATE POST --
+CREATE OR REPLACE PROCEDURE CREATEPOST (i_thread_id IN ADMIN.THREADS.ID%TYPE, i_user_id IN ADMIN.USERS.ID%TYPE,
+ i_content IN ADMIN.POSTS.CONTENT%TYPE, i_to_id IN NUMBER, o_create OUT NUMBER)
+AS
+    newthread_id NUMBER;
+    nowdate DATE;
+BEGIN
+    IF i_to_id = -1 THEN 
+        SELECT sysdate INTO nowdate from dual; 
+        INSERT INTO ADMIN.POSTS (thread_id, user_id, content, created_time, to_post_id) VALUES (i_thread_id, i_user_id, i_content, nowdate, null);
+    ELSE 
+        SELECT sysdate INTO nowdate from dual; 
+        INSERT INTO ADMIN.POSTS (thread_id, user_id, content, created_time, to_post_id) VALUES (i_thread_id, i_user_id, i_content, nowdate, i_to_id);
+    END IF;
+    COMMIT;
+    o_create := 1;
+END;
 
 -- GET USER_INFO --
 CREATE OR REPLACE PROCEDURE GETUSERINFO (i_userid IN NUMBER, p_userinfoset OUT SYS_REFCURSOR)
