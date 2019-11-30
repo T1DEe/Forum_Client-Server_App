@@ -78,9 +78,8 @@ END GETPOSTS;
 
 -- CREATE POST --
 CREATE OR REPLACE PROCEDURE CREATEPOST (i_thread_id IN ADMIN.THREADS.ID%TYPE, i_user_id IN ADMIN.USERS.ID%TYPE,
- i_content IN ADMIN.POSTS.CONTENT%TYPE, i_to_id IN NUMBER, o_create OUT NUMBER)
+    i_content IN ADMIN.POSTS.CONTENT%TYPE, i_to_id IN NUMBER, o_create OUT NUMBER)
 AS
-    newthread_id NUMBER;
     nowdate DATE;
 BEGIN
     IF i_to_id = -1 THEN 
@@ -90,6 +89,16 @@ BEGIN
         SELECT sysdate INTO nowdate from dual; 
         INSERT INTO ADMIN.POSTS (thread_id, user_id, content, created_time, to_post_id) VALUES (i_thread_id, i_user_id, i_content, nowdate, i_to_id);
     END IF;
+    COMMIT;
+    o_create := 1;
+END;
+
+-- DELETE POST --
+CREATE OR REPLACE PROCEDURE DELETEPOST (i_post_id IN ADMIN.THREADS.ID%TYPE, o_create OUT NUMBER)
+AS
+BEGIN
+    DELETE FROM ADMIN.POSTS WHERE id = i_post_id;
+    DELETE FROM ADMIN.POSTS WHERE to_post_id = i_post_id;
     COMMIT;
     o_create := 1;
 END;

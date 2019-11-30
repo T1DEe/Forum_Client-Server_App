@@ -146,7 +146,21 @@ server.on('request', (request, response) => {
                 break;
             }
             case '/deletePost' : {
-            
+                let data = ''
+                request.on('data', chunk => {
+                    data += chunk;
+                })
+                request.on('end', () => {
+                    const postData = JSON.parse(data);
+                    try {
+                        deletePost(postData.post_id, (regConfirm) => {
+                                response.writeHead(200, {'Content-Type':'application/json'} );
+                                response.end(JSON.stringify(regConfirm));
+                        });
+                    } catch (err) {
+                        console.log(err);
+                    }
+                });
                 break;
             }
             case '/editThread' : {
@@ -315,6 +329,28 @@ async function createPost(threadId, userId, content, toPostId, callback) {
         callback(true);
     } else {
         console.log("createPost(): post creation denied.");
+        callback(false);
+    }
+}
+
+async function deletePost(postId, callback) {
+    const result = await clientConnect.execute(
+        `BEGIN
+            ADMIN.DELETEPOST(:postid, :deleteconfirm);
+        END;`,
+        {
+            postid: { dir: oracledb.BIND_IN, val: postId, type: oracledb.NUMBER },
+            deleteconfirm: { type: oracledb.NUMBER, dir : oracledb.BIND_OUT }
+        }
+    );
+
+    const deleteObj = result.outBinds;
+    console.log(deleteObj);
+    if (deleteObj.deleteconfirm == 1) {
+        console.log("deletePost(): post deleted.");
+        callback(true);
+    } else {
+        console.log("deletePost(): post removing denied.");
         callback(false);
     }
 }
