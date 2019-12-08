@@ -3,7 +3,7 @@ import UIKit
 
 class ThreadTableViewController: UITableViewController {
         
-    private let cellID = "ThreadTableCell"
+    private let cellID = "ThreadCell"
     private var threads: [Thread] = []
     private var threadsLoaded = false
     
@@ -11,10 +11,7 @@ class ThreadTableViewController: UITableViewController {
         super.viewDidLoad()
         
         title = "Threads"
-        navigationController?.isNavigationBarHidden = false
         
-        tableView.backgroundColor = UIColor.hexStringToUIColor(hex: "#0096FF")
-        tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         
         let url = URL(string: "http://localhost:5000/getThreads")!
         var request = URLRequest(url: url)
@@ -43,6 +40,11 @@ class ThreadTableViewController: UITableViewController {
             }
         }
         task.resume()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.tintColor = .white
+        tableView.backgroundColor = UIColor.hexStringToUIColor(hex: "#0096FF")
     }
     
     // MARK: - Table view data source
@@ -73,6 +75,7 @@ class ThreadTableViewController: UITableViewController {
         postsVC.title = threads[indexPath.row].title
         
         navigationController?.pushViewController(postsVC, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }

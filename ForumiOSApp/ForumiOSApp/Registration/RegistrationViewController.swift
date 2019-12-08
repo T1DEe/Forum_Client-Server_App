@@ -21,9 +21,7 @@ class RegistrationViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         navigationController?.navigationBar.isHidden = false
-        
         genderPicker.tintColor = .white
     }
     
@@ -64,7 +62,6 @@ class RegistrationViewController: UIViewController {
                     fatalError()
                 }
             }
-            
         }
 
         task.resume()
@@ -104,13 +101,13 @@ extension RegistrationViewController: UITextFieldDelegate {
         
         if textField == usernameField {
             let currentText = textField.text! + string
-            return currentText.count <= 10
+            return currentText.count <= 20
         } else if textField == passwordField {
             let currentText = textField.text! + string
-            return currentText.count <= 10
+            return currentText.count <= 20
         } else if textField == locationField {
             let currentText = textField.text! + string
-            return currentText.count <= 10
+            return currentText.count <= 20
         }
         
         return true;

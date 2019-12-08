@@ -3,22 +3,17 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
-    
-    
     //MARK: Outlets
-    //@IBOutlet var contentView: UIView!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var warningLabel: UILabel!
     
-    
     //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        
         
         usernameField.delegate = self
         passwordField.delegate = self
@@ -27,10 +22,7 @@ class LoginViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         navigationController?.navigationBar.isHidden = true
-        
-
     }
     
     //MARK: Buttons actions
@@ -61,8 +53,8 @@ class LoginViewController: UIViewController {
                 DispatchQueue.main.async {
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     appDelegate.currentUser = authUser
-                    let threadVC = ThreadTableViewController()
-                    self.navigationController?.viewControllers = [threadVC]
+                    let threadsVC = self.storyboard?.instantiateViewController(withIdentifier: "MainNavVC") as! UINavigationController
+                    self.present(threadsVC, animated: true)
                 }
                 
             } else {
@@ -74,7 +66,7 @@ class LoginViewController: UIViewController {
         task.resume()
     }
     @IBAction func registrationTapped(_ sender: UIButton) {
-        let registrationVC = RegistrationViewController()
+        let registrationVC = storyboard?.instantiateViewController(withIdentifier: "RegistrationVC") as! RegistrationViewController
         navigationController?.pushViewController(registrationVC, animated: true)
     }
     
@@ -83,7 +75,6 @@ class LoginViewController: UIViewController {
         mainView.layer.borderWidth = 10
         mainView.layer.cornerRadius = 10
         mainView.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        
         loginBtn.layer.cornerRadius = 5
     }
     
@@ -108,10 +99,10 @@ extension LoginViewController: UITextFieldDelegate {
         
         if textField == usernameField {
             let currentText = textField.text! + string
-            return currentText.count <= 10
+            return currentText.count <= 20
         } else if textField == passwordField {
             let currentText = textField.text! + string
-            return currentText.count <= 10
+            return currentText.count <= 20
         }
         
         return true;

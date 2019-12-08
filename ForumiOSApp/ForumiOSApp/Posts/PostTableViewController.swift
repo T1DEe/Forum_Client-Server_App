@@ -3,7 +3,7 @@ import UIKit
 
 class PostTableViewController: UITableViewController {
 
-    let cellID = "PostTableCell"
+    let cellID = "PostCell"
     var selectedThreadId: Int?
     var posts: [Post] = []
     
@@ -12,8 +12,6 @@ class PostTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.backgroundColor = UIColor.hexStringToUIColor(hex: "#0096FF")
-        tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         
         guard let threadId = selectedThreadId else { return }
         let url = URL(string: "http://localhost:5000/getPosts?threadId=\(threadId)")!
@@ -45,9 +43,13 @@ class PostTableViewController: UITableViewController {
         }
         task.resume()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.tintColor = .white
+        tableView.backgroundColor = UIColor.hexStringToUIColor(hex: "#0096FF")
+    }
 
-    
-    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -66,5 +68,12 @@ class PostTableViewController: UITableViewController {
         }
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
