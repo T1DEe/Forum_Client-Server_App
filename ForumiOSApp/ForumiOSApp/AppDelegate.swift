@@ -3,7 +3,8 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
+    var currentUser: User?
     var window: UIWindow?
 
     var navigationVC: UINavigationController? 
@@ -11,12 +12,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        
-        let loginVC = ThreadTableViewController()
-        
+        //
+        currentUser = User(id: 20, username: "testuser1")
+        let loginVC = LoginViewController()
+        //
         navigationVC = UINavigationController(rootViewController: loginVC)
-        navigationVC?.navigationBar.barTintColor = #colorLiteral(red: 0, green: 0.5898008943, blue: 1, alpha: 1)
-        navigationVC?.navigationBar.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        navigationVC?.navigationBar.barTintColor = UIColor.hexStringToUIColor(hex: "#0096FF")
+        navigationVC?.navigationBar.tintColor = .white
 
         window!.rootViewController = navigationVC
         window!.makeKeyAndVisible()

@@ -8,6 +8,7 @@ class ServerNetwork: NSObject {
     
     private let getThreadsPath = "/getThreads"
     private let getPostsPath = "/getPosts"
+    private let authUserPath = "/authUser"
     
     private var dataTask: URLSessionDataTask?
     private var urlRequest: URLRequest?

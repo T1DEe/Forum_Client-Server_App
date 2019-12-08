@@ -5,25 +5,45 @@ class ThreadTableViewController: UITableViewController {
         
     private let cellID = "ThreadTableCell"
     private var threads: [Thread] = []
+    private var threadsLoaded = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = "Threads"
+        navigationController?.isNavigationBarHidden = false
+        
+        tableView.backgroundColor = UIColor.hexStringToUIColor(hex: "#0096FF")
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         
-        // get threads from db
-        let service = ServerNetwork()
-        guard let threadsData = service.getThreads() else { return }
+        let url = URL(string: "http://localhost:5000/getThreads")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
         
-        do {
-            threads = try JSONDecoder().decode([Thread].self, from: threadsData)
-            print(threads)
-        } catch let error{
-            print(error)
-        }
-    }
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil
+                else {
+                    print("error", error ?? "Unknown error")
+                    DispatchQueue.main.async {
+                        self.present(AlertSupport.getThreadsError(with: nil), animated: true)
+                    }
+                    return
+                }
 
+            if let threadsArray = try? JSONDecoder().decode([Thread].self, from: data) {
+                self.threads = threadsArray
+                self.threadsLoaded = true
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.present(AlertSupport.authError(with: nil), animated: true)
+                }
+            }
+        }
+        task.resume()
+    }
     
     // MARK: - Table view data source
 
@@ -32,23 +52,28 @@ class ThreadTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return threads.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! ThreadTableViewCell
-        
-        
-        cell.threadTitle.text = "Mobile Development"
-        cell.threadDescription.text = "This thread about Ilya. He is lox"
-        cell.postCountLabel.text = "24123"
+        if threadsLoaded {
+            cell.threadTitle.text = threads[indexPath.row].title
+            cell.threadDescription.text = threads[indexPath.row].description
+            cell.postCountLabel.text = String(describing: threads[indexPath.row].post_count)
+        }
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigationController?.pushViewController(PostTableViewController(), animated: true)
+        let postsVC = PostTableViewController()
+        postsVC.selectedThreadId = threads[indexPath.row].id
+        postsVC.title = threads[indexPath.row].title
+        
+        navigationController?.pushViewController(postsVC, animated: true)
     }
+    
 }
 

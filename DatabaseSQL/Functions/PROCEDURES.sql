@@ -25,20 +25,20 @@ END;
 
 
 -- AUTH USER --
-CREATE OR REPLACE PROCEDURE AUTHUSER (i_username IN ADMIN.USERS.USERNAME%TYPE, i_password IN ADMIN.USERS.PASSWORD%TYPE, auth OUT NUMBER)
+CREATE OR REPLACE PROCEDURE AUTHUSER (i_username IN ADMIN.USERS.USERNAME%TYPE, i_password IN ADMIN.USERS.PASSWORD%TYPE, o_authset OUT SYS_REFCURSOR)
 AS
 BEGIN
-    SELECT COUNT(*) INTO auth
-        FROM   ADMIN.USERS
-        WHERE  USERNAME = i_username AND PASSWORD = i_password;
+    OPEN o_authset FOR
+        SELECT * FROM   ADMIN.USERS
+            WHERE  USERNAME = i_username AND PASSWORD = i_password;
 END;
-
-
+--============================================================================================================--
+--============================================================================================================--
 -- GET THREADS --
-CREATE OR REPLACE PROCEDURE GETTHREADS (p_threadsset OUT SYS_REFCURSOR)
+CREATE OR REPLACE PROCEDURE GETTHREADS (o_threadsset OUT SYS_REFCURSOR)
 AS
 BEGIN
-    OPEN p_threadsset FOR
+    OPEN o_threadsset FOR
       SELECT * FROM ADMIN.THREADS;
 END;
 
@@ -65,15 +65,29 @@ BEGIN
     END IF;
 END;
 
--- GET POSTS --
-CREATE OR REPLACE PROCEDURE GETPOSTS(i_threadid IN ADMIN.THREADS.ID%TYPE, p_postsset OUT SYS_REFCURSOR)
+-- EDIT THREAD --
+CREATE OR REPLACE PROCEDURE EDITTHREAD (i_thread_id IN ADMIN.THREADS.ID%TYPE, i_title IN ADMIN.THREADS.TITLE%TYPE, 
+    i_description IN ADMIN.THREADS.DESCRIPTION%TYPE, o_edit OUT NUMBER)
 AS
 BEGIN
-    OPEN p_postsset FOR SELECT ADMIN.POSTS.ID, ADMIN.USERS.ID AS USER_ID, USERNAME, PROFILE_PHOTO_PATH, CONTENT, CREATED_TIME, TO_POST_ID 
+    UPDATE ADMIN.THREADS 
+        SET    title = i_title, 
+                description = i_description
+        WHERE id = i_thread_id;
+    COMMIT;
+    o_edit := 1;
+END;
+--============================================================================================================--
+--============================================================================================================--
+-- GET POSTS --
+CREATE OR REPLACE PROCEDURE GETPOSTS(i_thread_id IN ADMIN.THREADS.ID%TYPE, o_postsset OUT SYS_REFCURSOR)
+AS
+BEGIN
+    OPEN o_postsset FOR SELECT ADMIN.POSTS.ID, ADMIN.USERS.ID AS USER_ID, USERNAME, PROFILE_PHOTO_PATH, CONTENT, CREATED_TIME, TO_POST_ID 
         FROM ADMIN.POSTS 
             INNER JOIN ADMIN.USERS ON ADMIN.POSTS.USER_ID = ADMIN.USERS.ID 
             INNER JOIN ADMIN.USERS_INFO ON ADMIN.USERS.ID = ADMIN.USERS_INFO.USER_ID 
-            WHERE THREAD_ID = i_threadid;
+            WHERE THREAD_ID = i_thread_id;
 END GETPOSTS;
 
 -- CREATE POST --
@@ -93,20 +107,86 @@ BEGIN
     o_create := 1;
 END;
 
+-- EDIT POST --
+CREATE OR REPLACE PROCEDURE EDITPOST (i_thread_id IN ADMIN.THREADS.ID%TYPE, i_user_id IN ADMIN.USERS.ID%TYPE,
+    i_content IN ADMIN.POSTS.CONTENT%TYPE,  o_edit OUT NUMBER)
+AS
+BEGIN
+    UPDATE ADMIN.POSTS 
+        SET    content = i_content
+        WHERE thread_id = i_thread_id AND user_id = i_user_id;
+    COMMIT;
+    o_edit := 1;
+END;
+
 -- DELETE POST --
-CREATE OR REPLACE PROCEDURE DELETEPOST (i_post_id IN ADMIN.THREADS.ID%TYPE, o_create OUT NUMBER)
+CREATE OR REPLACE PROCEDURE DELETEPOST (i_post_id IN ADMIN.POSTS.ID%TYPE, o_delete OUT NUMBER)
 AS
 BEGIN
     DELETE FROM ADMIN.POSTS WHERE id = i_post_id;
     DELETE FROM ADMIN.POSTS WHERE to_post_id = i_post_id;
     COMMIT;
+    o_delete := 1;
+END;
+--============================================================================================================--
+--============================================================================================================--
+-- GET USER_INFO --
+CREATE OR REPLACE PROCEDURE GETUSERINFO (i_userid IN NUMBER, o_userinfoset OUT SYS_REFCURSOR)
+AS
+BEGIN
+    OPEN o_userinfoset FOR
+      SELECT * FROM ADMIN.USERS_INFO WHERE USER_ID = i_userid;
+END;
+
+-- EDIT USER_INFO --
+CREATE OR REPLACE PROCEDURE EDITUSERINFO (i_user_id IN ADMIN.USERS.ID%TYPE, i_sex IN ADMIN.USERS_INFO.SEX%TYPE,
+    i_location IN ADMIN.USERS_INFO.LOCATION%TYPE,  o_edit OUT NUMBER)
+AS
+BEGIN
+    UPDATE ADMIN.USERS_INFO 
+        SET    sex = i_sex,
+                location = i_location
+        WHERE user_id = i_user_id;
+    COMMIT;
+    o_edit := 1;
+END;
+--============================================================================================================--
+--============================================================================================================--
+-- GET ADMINS --
+CREATE OR REPLACE PROCEDURE GETADMINS (i_thread_id IN ADMIN.THREADS.ID%TYPE, o_adminsset OUT SYS_REFCURSOR)
+AS
+BEGIN
+    OPEN o_adminsset FOR
+      SELECT * FROM ADMIN.ADMINISTRATORS WHERE THREAD_ID =i_thread_id;
+END;
+
+-- CREATE ADMIN --
+CREATE OR REPLACE PROCEDURE SETADMIN (i_thread_id IN ADMIN.THREADS.ID%TYPE, i_user_id IN ADMIN.USERS.ID%TYPE,
+    i_rights_id IN ADMIN.ADMINISTRATORS.ADMINRIGHT_ID%TYPE, o_create OUT NUMBER)
+AS
+BEGIN
+    INSERT INTO ADMIN.ADMINISTRATORS (thread_id, user_id, adminright_id) VALUES (i_thread_id, i_user_id, i_rights_id);
+    COMMIT;
     o_create := 1;
 END;
 
--- GET USER_INFO --
-CREATE OR REPLACE PROCEDURE GETUSERINFO (i_userid IN NUMBER, p_userinfoset OUT SYS_REFCURSOR)
+-- EDIT ADMIN --
+CREATE OR REPLACE PROCEDURE EDITADMIN (i_thread_id IN ADMIN.THREADS.ID%TYPE, i_user_id IN ADMIN.USERS.ID%TYPE,
+    i_rights_id IN ADMIN.ADMINISTRATORS.ADMINRIGHT_ID%TYPE, o_edit OUT NUMBER)
 AS
 BEGIN
-    OPEN p_userinfoset FOR
-      SELECT * FROM ADMIN.USERS_INFO WHERE USER_ID = i_userid;
+    UPDATE ADMIN.ADMINISTRATORS 
+        SET    adminright_id = i_rights_id
+        WHERE thread_id = i_thread_id AND user_id = i_user_id;
+    COMMIT;
+    o_edit := 1;
+END;
+
+-- DELETE ADMIN --
+CREATE OR REPLACE PROCEDURE DELETEADMIN (i_thread_id IN ADMIN.THREADS.ID%TYPE, i_user_id IN ADMIN.USERS.ID%TYPE, o_delete OUT NUMBER)
+AS
+BEGIN
+    DELETE FROM ADMIN.ADMINISTRATORS WHERE thread_id = i_thread_id AND user_id = i_user_id;
+    COMMIT;
+    o_delete := 1;
 END;

@@ -3,12 +3,25 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
+    
+    
+    //MARK: Outlets
     //@IBOutlet var contentView: UIView!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var loginBtn: UIButton!
+    @IBOutlet weak var usernameField: UITextField!
+    @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var warningLabel: UILabel!
     
+    
+    //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
+        
+        
+        usernameField.delegate = self
+        passwordField.delegate = self
         
     }
     
@@ -17,6 +30,56 @@ class LoginViewController: UIViewController {
         
         navigationController?.navigationBar.isHidden = true
         
+
+    }
+    
+    //MARK: Buttons actions
+    @IBAction func loginBtnTapped(_ sender: UIButton) {
+        guard !isFieldsEmpty() else { return }
+        
+        let url = URL(string: "http://localhost:5000/authUser")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        let body: [String: Any] = [
+            "username": "\(usernameField.text!)",
+            "password": "\(passwordField.text!)"
+        ]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil
+                else {
+                    print("error", error ?? "Unknown error")
+                    DispatchQueue.main.async {
+                        self.present(AlertSupport.serverError(with: nil), animated: true)
+                    }
+                    return
+                }
+
+            if let authUser = try? JSONDecoder().decode(User.self, from: data) {
+                DispatchQueue.main.async {
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDelegate.currentUser = authUser
+                    let threadVC = ThreadTableViewController()
+                    self.navigationController?.viewControllers = [threadVC]
+                }
+                
+            } else {
+                DispatchQueue.main.async {
+                    self.present(AlertSupport.authError(with: nil), animated: true)
+                }
+            }
+        }
+        task.resume()
+    }
+    @IBAction func registrationTapped(_ sender: UIButton) {
+        let registrationVC = RegistrationViewController()
+        navigationController?.pushViewController(registrationVC, animated: true)
+    }
+    
+    //MARK: Functions (private)
+    private func setupView() {
         mainView.layer.borderWidth = 10
         mainView.layer.cornerRadius = 10
         mainView.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
@@ -25,9 +88,32 @@ class LoginViewController: UIViewController {
     }
     
     
-    @IBAction func registrationTapped(_ sender: UIButton) {
-        let registrationVC = RegistrationViewController()
+    private func isFieldsEmpty() -> Bool {
+        if usernameField.text!.isEmpty || passwordField.text!.isEmpty {
+            warningLabel.textColor = .red
+            return true
+        } else {
+            warningLabel.textColor = UIColor.hexStringToUIColor(hex: "#0096FF")
+            return false
+        }
+    }
+    
+    
+}
+
+
+//MARK: UITextFiedl Delegate
+extension LoginViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        navigationController?.pushViewController(registrationVC, animated: true)
+        if textField == usernameField {
+            let currentText = textField.text! + string
+            return currentText.count <= 10
+        } else if textField == passwordField {
+            let currentText = textField.text! + string
+            return currentText.count <= 10
+        }
+        
+        return true;
     }
 }
